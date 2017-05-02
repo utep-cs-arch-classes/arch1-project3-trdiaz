@@ -186,7 +186,7 @@ void main()
       or_sr(0x10);	      /**< CPU OFF */
     }
     P1OUT |= GREEN_LED;       /**< Green led on when CPU on */
-    redrawScreen = 0;
+    redrawScreen = 0;`
     movLayerDraw(&ml0, &layer0);
   }
 }
