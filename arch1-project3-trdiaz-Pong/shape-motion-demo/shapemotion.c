@@ -17,8 +17,8 @@
 #define GREEN_LED BIT6
 
 //Scores
-int score1 = 0;
-int score2 = 0;
+unsigned int score1 = 0;
+unsigned int score2 = 0;
 
 AbRect rect10 = {abRectGetBounds, abRectCheck, {2 ,15}};
 /**< 10x10 rectangle */
@@ -129,11 +129,10 @@ void mlAdvance(MovLayer *ml, Region *fence, Region *p1, Region *p2)
 			}/**< if outside of fence */
 		}
 		if(shapeBoundary.topLeft.axes[0] < fence->topLeft.axes[0]){
-			buzzer_init(2500);
+			buzzer_init(1000);
 			score2++;
-			//else if //3500
-		}if(shapeBoundary.botRight.axes[0] > fence -> botRight.axes[0]){
-			buzzer_init(2500);
+		}if(shapeBoundary.botRight.axes[0] > fence->botRight.axes[0]){
+			buzzer_init(1000);
 			score1++;
 		}else{
 			buzzer_init(0);
@@ -146,7 +145,7 @@ void mlAdvance(MovLayer *ml, Region *fence, Region *p1, Region *p2)
 				ml->velocity.axes[0] = -ml->velocity.axes[0];
 			}
 		}
-		//Checks Players2
+		//Checks Player2
 		if ((shapeBoundary.botRight.axes[0] > p2->topLeft.axes[0]) 
 				&& (shapeBoundary.botRight.axes[0] < p2->botRight.axes[0])) {
 			if((shapeBoundary.botRight.axes[1] >= p2->topLeft.axes[1]) 
@@ -164,7 +163,8 @@ void buzzer_init(short cycles){
 	P2SEL &= ~BIT7;
 	P2SEL |= BIT6;
 	P2DIR = BIT6;
-
+	
+	//one-half cycle
 	CCR0 = cycles;
 	CCR1 = cycles >> 1;
 }
@@ -225,6 +225,7 @@ void wdt_c_handler()
 		mlAdvance(&ml0, &fieldFence, &plyr1, &plyr2);
 		for (i = 0; i < 4; i++)
 			str[i] = (switches & (1<<i)) ? 0: 1;
+		
 		//moves palettes up/down depending on the button
 		if(str[0]) {//button 1 up for red palette
 			ml1.velocity.axes[1] = -5;
