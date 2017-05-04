@@ -28,6 +28,14 @@ AbRectOutline fieldOutline = {	/* playing field */
 		{screenWidth/2 - 10, screenHeight/2 - 10}
 };
 
+Layer layer4 = {
+ 		 (AbShape *)&rightArrow,
+ 		 {(screenWidth/2)+10, (screenHeight/2)+5}, /**< bit below & right of center */
+ 	        {0,0}, {0,0},				    /* last & next pos */
+  		COLOR_PINK,
+		0
+};
+
 Layer layer3 = {		/**< Layer with an yellow circle */
 		(AbShape *)&circle4,
 		{(screenWidth/2)+10, (screenHeight/2)+5}, /**< bit below & right of center */
@@ -168,8 +176,7 @@ void buzzer_init(short cycles){
 	CCR0 = cycles;
 	CCR1 = cycles >> 1;
 }
-
-u_int bgColor = COLOR_BLACK;     /**< The background color */
+u_int bgColor = COLOR_YELLOW;     /**< The BG color */
 int redrawScreen = 1;           /**< Boolean for whether screen needs to be redrawn */
 
 Region fieldFence;		/**< fence around playing field  */
@@ -227,34 +234,34 @@ void wdt_c_handler()
 			str[i] = (switches & (1<<i)) ? 0: 1;
 		
 		//moves palettes up/down depending on the button
-		if(str[0]) {//button 1 up for red palette
+		if(str[0]) {//bttn4 is red-down
 			ml1.velocity.axes[1] = -5;
 			ml1.velocity.axes[0] = 0;
 		}else{
 			ml1.velocity.axes[1] = 0;
-			ml1.velocity.axes[0] = 0;
+			ml1.velocity.axes[0] = 0; //doesn't move
 		}
-		if(str[1]) {//button 2 down for red palette
+		if(str[1]) {//bttn4 is red-up
 			ml1.velocity.axes[1] = 5;
 			ml1.velocity.axes[0] = 0;
 		}
-		if(str[2]){//button 3 up for blue palette
+		if(str[2]){//bttn3 is blue-down
 			ml0.velocity.axes[1] = -5;
 			ml0.velocity.axes[0] = 0;
 		}else{
 			ml0.velocity.axes[1] = 0;
-			ml0.velocity.axes[0] = 0;
+			ml0.velocity.axes[0] = 0; //doesn't move
 		}
-		if(str[3]){//button 4 down for red palette
+		if(str[3]){//bttn4 is blue-up
 			ml0.velocity.axes[1] = 5;
 			ml0.velocity.axes[0] = 0;
 		}
 		if(score1 > score2){
-			drawString5x7(11, screenHeight - 8, "RED IS WINNING", COLOR_RED, COLOR_BLACK);//if player 1 is winning
+			drawString5x7(11, screenHeight - 8, "RED In Lead", COLOR_RED, COLOR_BLACK);//if player1 is winning, this mssge will show. 
 		}else if(score2 > score1){
-			drawString5x7(11, screenHeight - 8, "BLUE IS WINNING", COLOR_BLUE, COLOR_BLACK);
+			drawString5x7(11, screenHeight - 8, "BLUE In Lead", COLOR_BLUE, COLOR_BLACK);
 		}else{
-			drawString5x7(11, screenHeight - 8, "Game Is Tied!!", COLOR_PURPLE, COLOR_BLACK);
+			drawString5x7(11, screenHeight - 8, "Tied", COLOR_PINK, COLOR_BLACK);
 		}
 		if (p2sw_read())
 			redrawScreen = 1;
