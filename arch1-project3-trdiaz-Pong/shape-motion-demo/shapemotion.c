@@ -16,7 +16,7 @@
 
 #define GREEN_LED BIT6
 
-//keeps scores going
+//Scores
 int score1 = 0;
 int score2 = 0;
 
@@ -59,7 +59,6 @@ Layer layer0 = {		/**< Layer with a blue palette */
 		COLOR_BLUE,
 		&layer1,
 };
-
 /** Moving Layer
  *  Linked list of layer references
  *  Velocity represents one iteration of change (direction & magnitude)
@@ -79,7 +78,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
 {
 	int row, col;
 	MovLayer *movLayer;
-
+	
 	and_sr(~8);/**< disable interrupts (GIE off) */
 	for (movLayer = movLayers; movLayer; movLayer = movLayer->next) { /* for each moving layer */
 		Layer *l = movLayer->layer;
@@ -87,8 +86,6 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
 		l->pos = l->posNext;
 	}
 	or_sr(8);			/**< disable interrupts (GIE on) */
-
-
 	for (movLayer = movLayers; movLayer; movLayer = movLayer->next) { /* for each moving layer */
 		Region bounds;
 		layerGetBounds(movLayer->layer, &bounds);
@@ -110,17 +107,12 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
 		} // for row
 	} // for moving layer being updated
 }	  
-
-
-
 Region fence = {{10,30}, {SHORT_EDGE_PIXELS-10, LONG_EDGE_PIXELS-10}}; /**< Create a fence region */
-
-/** Advances a moving shape within a fence
- *  
- *  \param ml The moving shape to be advanced
- *  \param fence The region which will serve as a boundary for ml
+/** 
+ *  param ml: shape to advance. 
+ *  param fence: Boundary for ml
  */
-/************************************************/
+/*****************Advance Moving Object within area*******************************/
 void mlAdvance(MovLayer *ml, Region *fence, Region *p1, Region *p2)
 {
 	Vec2 newPos;
@@ -136,18 +128,17 @@ void mlAdvance(MovLayer *ml, Region *fence, Region *p1, Region *p2)
 				newPos.axes[axis] += (2*velocity);
 			}/**< if outside of fence */
 		}
-
 		if(shapeBoundary.topLeft.axes[0] < fence->topLeft.axes[0]){
-			buzzer_init(3500);
+			buzzer_init(2500);
 			score2++;
-		}else if(shapeBoundary.botRight.axes[0] > fence -> botRight.axes[0]){
-			buzzer_init(3500);
+			//else if //3500
+		}if(shapeBoundary.botRight.axes[0] > fence -> botRight.axes[0]){
+			buzzer_init(2500);
 			score1++;
 		}else{
 			buzzer_init(0);
 		}
-
-		//check for Player 1
+		//Checks for Player1
 		if ((shapeBoundary.topLeft.axes[0] < p1->botRight.axes[0]) && 
 				(shapeBoundary.topLeft.axes[0] > p1->topLeft.axes[0])) {
 			if((shapeBoundary.botRight.axes[1] >= p1->topLeft.axes[1]) && 
@@ -155,7 +146,7 @@ void mlAdvance(MovLayer *ml, Region *fence, Region *p1, Region *p2)
 				ml->velocity.axes[0] = -ml->velocity.axes[0];
 			}
 		}
-		//check for Player 2
+		//Checks Players2
 		if ((shapeBoundary.botRight.axes[0] > p2->topLeft.axes[0]) 
 				&& (shapeBoundary.botRight.axes[0] < p2->botRight.axes[0])) {
 			if((shapeBoundary.botRight.axes[1] >= p2->topLeft.axes[1]) 
@@ -163,15 +154,10 @@ void mlAdvance(MovLayer *ml, Region *fence, Region *p1, Region *p2)
 				ml->velocity.axes[0] = -ml->velocity.axes[0];
 			}
 		}
-
 		ml->layer->posNext = newPos;
 	} /**< for ml */
 }
-
-/*
- * tuns on buzzer
- */
-/************************************************/
+/******************Buzzer******************************/
 void buzzer_init(short cycles){
 	timerAUpmode();
 	P2SEL2 &= ~(BIT6 | BIT7);
@@ -193,7 +179,7 @@ Region plyr2;       //creates region for the blue palette
 /** Initializes everything, enables interrupts and green LED, 
  *  and handles the rendering for the screen
  */
-/************************************************/
+/**********************Main**************************/
 void main()
 {
 	P1DIR |= GREEN_LED;		/**< Green led on when CPU on */		
@@ -215,7 +201,6 @@ void main()
 	enableWDTInterrupts();      /**< enable periodic interrupt */
 	or_sr(0x8);	              /**< GIE (enable interrupts) */
 
-
 	for(;;) { 
 		while (!redrawScreen) { /**< Pause CPU if screen doesn't need updating */
 			P1OUT &= ~GREEN_LED;    /**< Green led off witHo CPU */
@@ -226,9 +211,7 @@ void main()
 		movLayerDraw(&ml0, &layer0);
 	}
 }
-
-/** Watchdog timer interrupt handler. 15 interrupts/sec */
-/************************************************/
+/********************* Watchdog timer (IH)15 interrupts/sec******************/
 void wdt_c_handler()
 {
 	static short count = 0;
@@ -272,7 +255,6 @@ void wdt_c_handler()
 		}else{
 			drawString5x7(11, screenHeight - 8, "Game Is Tied!!", COLOR_PURPLE, COLOR_BLACK);
 		}
-
 		if (p2sw_read())
 			redrawScreen = 1;
 		count = 0;
