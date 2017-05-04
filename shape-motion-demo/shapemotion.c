@@ -28,14 +28,6 @@ AbRectOutline fieldOutline = {	/* playing field */
 		{screenWidth/2 - 10, screenHeight/2 - 10}
 };
 
-Layer layer4 = {
- 		 (AbShape *)&rightArrow,
- 		 {(screenWidth/2)+10, (screenHeight/2)+5}, /**< bit below & right of center */
- 	        {0,0}, {0,0},				    /* last & next pos */
-  		COLOR_PINK,
-		0
-};
-
 Layer layer3 = {		/**< Layer with an yellow circle */
 		(AbShape *)&circle4,
 		{(screenWidth/2)+10, (screenHeight/2)+5}, /**< bit below & right of center */
@@ -261,7 +253,7 @@ void wdt_c_handler()
 		}else if(score2 > score1){
 			drawString5x7(11, screenHeight - 8, "BLUE In Lead", COLOR_BLUE, COLOR_BLACK);
 		}else{
-			drawString5x7(11, screenHeight - 8, "Tied", COLOR_PINK, COLOR_BLACK);
+			drawString5x7(11, screenHeight - 8, "Tied", COLOR_PURPLE, COLOR_BLACK);
 		}
 		if (p2sw_read())
 			redrawScreen = 1;
