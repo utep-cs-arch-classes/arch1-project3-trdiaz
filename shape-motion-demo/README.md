@@ -4,9 +4,9 @@
 <b>Instructions: </b>
 <br><p>This MSP430 game is Pong, it works simply by using 4 buttons. Have endless fun.</p>
 
-<br><b>Game:</b><p> Ping Pong
+<b>Game:</b><p> Ping Pong
 Explanation: Enjoy the fun and exciting game that is Ping Pong</p>
-
+<br>
 Controller: 
 Red
 SW1: Up 
@@ -17,35 +17,35 @@ SW3: Up
 SW4: Down
 
 /******************ASSEMBLY******************************/
-.data
-state: .byte 0
+<br>.data
+<br>state: .byte 0
 
-.text
-Jump: .word case0
+<br>.text
+<br>Jump: .word case0
       .word case1
       .word case2
     
-case0:
+<br>case0:
     MOV #880, r12
     CALL #buzzer_set_period,
     MOV.b #1, &state
     JMP DONE
-case1:
+<br>case1:
     MOV #700, r12
     CALL #buzzer_set_period,
     MOV.b #2, &state
     JMP DONE
-case2:
+<br>case2:
     MOV #600, r12
     CALL #buzzer_set_period,
     MOV.b #2, &state
     JMP DONE
 
-default:
+<br>default:
     MOV #0, r12
     CALL #buzzer_set_period
     
-DONE:
+<br>DONE:
     pop R0
 
       
