@@ -8,12 +8,12 @@
 Explanation: Enjoy the fun and exciting game that is Ping Pong</p>
 <br>
 Controller: 
-Red
-SW1: Up 
+<br>Red
+<br>SW1: Up 
 SW2: Down
 
-Blue
-SW3: Up
+<br>Blue
+<br>SW3: Up
 SW4: Down
 
 /******************ASSEMBLY******************************/
@@ -21,7 +21,7 @@ SW4: Down
 <br>state: .byte 0
 
 <br>.text
-<br>Jump: .word case0
+<br>Jump: <br>.word case0
       .word case1
       .word case2
     
