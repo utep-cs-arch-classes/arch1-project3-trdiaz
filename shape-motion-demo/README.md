@@ -1,4 +1,4 @@
-Name: Thomas Diaz
+<b>Name: Thomas Diaz</b>
 Date: 04.28.17
 
 Instructions: 
