@@ -22,31 +22,31 @@ SW4: Down
 
 <br>.text
 <br>Jump: <br>.word case0
-      .word case1
-      .word case2
+    <br>  .word case1
+    <br>  .word case2
     
 <br>case0:
-    MOV #880, r12
-    CALL #buzzer_set_period,
-    MOV.b #1, &state
-    JMP DONE
+ <br>   MOV #880, r12
+ <br>   CALL #buzzer_set_period,
+ <br>   MOV.b #1, &state
+   JMP DONE
 <br>case1:
-    MOV #700, r12
-    CALL #buzzer_set_period,
-    MOV.b #2, &state
+ <br>   MOV #700, r12
+  <br>  CALL #buzzer_set_period,
+ <br>   MOV.b #2, &state
     JMP DONE
 <br>case2:
-    MOV #600, r12
-    CALL #buzzer_set_period,
-    MOV.b #2, &state
+ <br>   MOV #600, r12
+ <br>   CALL #buzzer_set_period,
+ <br>   MOV.b #2, &state
     JMP DONE
 
 <br>default:
-    MOV #0, r12
-    CALL #buzzer_set_period
+ <br>   MOV #0, r12
+  <br>  CALL #buzzer_set_period
     
 <br>DONE:
-    pop R0
+  <br>  pop R0
 
       
       
