@@ -1,11 +1,11 @@
 <b>Name: Thomas Diaz</b>
-Date: 04.28.17
+<br><b>Date: 04.28.17</b>
+</br>
+<b>Instructions: </b>
+<br><p>This MSP430 game is Pong, it works simply by using 4 buttons. Have endless fun.</p>
 
-Instructions: 
-This MSP430 game is Pong, it works simply by using 4 buttons. Have endless fun.
-
-Game: Ping Pong
-Explanation: Enjoy the fun and exciting game that is Ping Pong
+<br><b>Game:</b><p> Ping Pong
+Explanation: Enjoy the fun and exciting game that is Ping Pong</p>
 
 Controller: 
 Red
